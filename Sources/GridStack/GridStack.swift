@@ -17,9 +17,9 @@ public struct GridStack<Content>: View where Content: View {
     private let gridCalculator = GridCalculator()
     
     public init(
-        minCellWidth: Length,
-        spacing: Length,
-        numItems: Int,
+        minCellWidth: Length = 100,
+        spacing: Length = 0,
+        numItems: Int = 0,
         alignment: HorizontalAlignment = .leading,
         @ViewBuilder content: @escaping (Int, CGFloat) -> Content
     ) {
@@ -47,6 +47,14 @@ public struct GridStack<Content>: View where Content: View {
                     cellSpacing: self.spacing
                 )
             )
+        }
+    }
+}
+
+fileprivate extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
         }
     }
 }
